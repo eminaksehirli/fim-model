@@ -1,0 +1,8 @@
+/bin
+/.settings
+*~
+/target/
+.settings
+.project
+.classpath
+.fbprefs
