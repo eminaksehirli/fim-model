@@ -1,4 +1,4 @@
-package be.uantwerpen.adrem.fim.base;
+package be.uantwerpen.adrem.fim.model;
 
 import java.util.BitSet;
 
