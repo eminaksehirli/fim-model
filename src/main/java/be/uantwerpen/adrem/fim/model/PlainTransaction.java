@@ -1,6 +1,7 @@
 package be.uantwerpen.adrem.fim.model;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class PlainTransaction implements Iterable<PlainItem> {
 	}
 
 	public Collection<PlainItem> asCollection() {
-		return items;
+		return unmodifiableSet(items);
 	}
 
 	@Override
@@ -33,5 +34,10 @@ public class PlainTransaction implements Iterable<PlainItem> {
 
 	public int size() {
 		return items.size();
+	}
+
+	@Override
+	public String toString() {
+		return items.toString();
 	}
 }
