@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlainTransactionDB {
+public class TransactionDB {
 	private static final String Delimiter = " ";
 
 	private String databaseName;
@@ -21,16 +21,16 @@ public class PlainTransactionDB {
 
 	private final PlainItemDB itemsDB;
 
-	public PlainTransactionDB() {
+	public TransactionDB() {
 		itemsDB = new PlainItemDB();
 	}
 
-	public PlainTransactionDB(String fileName) {
+	public TransactionDB(String fileName) {
 		this();
 		populateFromFile(fileName);
 	}
 
-	public PlainTransactionDB(PlainItemDB itemsDB) {
+	public TransactionDB(PlainItemDB itemsDB) {
 		this.itemsDB = itemsDB;
 		Map<Integer, Transaction> txMap = new HashMap<Integer, Transaction>();
 		for (Item item : itemsDB) {
