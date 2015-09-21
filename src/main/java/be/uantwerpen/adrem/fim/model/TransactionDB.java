@@ -19,10 +19,10 @@ public class TransactionDB {
 
 	private final List<Transaction> transactions = new ArrayList<Transaction>();
 
-	private final PlainItemDB itemsDB;
+	private final ItemDB itemsDB;
 
 	public TransactionDB() {
-		itemsDB = new PlainItemDB();
+		itemsDB = new ItemDB();
 	}
 
 	public TransactionDB(String fileName) {
@@ -30,7 +30,7 @@ public class TransactionDB {
 		populateFromFile(fileName);
 	}
 
-	public TransactionDB(PlainItemDB itemsDB) {
+	public TransactionDB(ItemDB itemsDB) {
 		this.itemsDB = itemsDB;
 		Map<Integer, Transaction> txMap = new HashMap<Integer, Transaction>();
 		for (Item item : itemsDB) {
@@ -123,7 +123,7 @@ public class TransactionDB {
 		return unmodifiableList(transactions);
 	}
 
-	public PlainItemDB getItemDB() {
+	public ItemDB getItemDB() {
 		return itemsDB;
 	}
 

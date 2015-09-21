@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class PlainItemDB implements Iterable<Item> {
+public class ItemDB implements Iterable<Item> {
 	private final Map<Integer, Item> items;
 
-	public PlainItemDB() {
+	public ItemDB() {
 		this.items = new HashMap<Integer, Item>();
 	}
 
