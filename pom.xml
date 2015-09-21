@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<description>This package provides the base classes for Frequent Itemset Mining.</description>
+	<description>This package provides the basic model for Frequent Itemset Mining.</description>
 	<organization>
 		<name>University of Antwerp - ADReM Research Group</name>
 		<url>http://adrem.uantwerpen.be</url>
@@ -22,6 +22,8 @@
 	<developers>
 		<developer>
 			<name>Sandy Moens</name>
+			<email>sandy.moens@uantwerpen.be</email>
+			<organizationUrl>https://www.uantwerpen.be/nl/personeel/sandy-moens/</organizationUrl>
 		</developer>
 		<developer>
 			<name>Emin Aksehirli</name>
