@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlainTransactionDB {
 	private static final String Delimiter = " ";
@@ -25,6 +28,31 @@ public class PlainTransactionDB {
 	public PlainTransactionDB(String fileName) {
 		this();
 		populateFromFile(fileName);
+	}
+
+	public PlainTransactionDB(PlainItemDB itemsDB) {
+		this.itemsDB = itemsDB;
+		Map<Integer, PlainTransaction> txMap = new HashMap<Integer, PlainTransaction>();
+		for (PlainItem item : itemsDB) {
+			final BitSet tids = item.getTIDs();
+			for (int i = tids.nextSetBit(0); i >= 0; i = tids.nextSetBit(i + 1)) {
+				PlainTransaction tx = txMap.get(i);
+				if (tx == null) {
+					tx = new PlainTransaction();
+					txMap.put(i, tx);
+				}
+				tx.add(item);
+			}
+		}
+
+		// Keep the order of transactions
+		for (int i = 0; !txMap.isEmpty(); i++) {
+			PlainTransaction tx = txMap.remove(i);
+			if (tx == null) {
+				tx = new PlainTransaction();
+			}
+			transactions.add(tx);
+		}
 	}
 
 	private void populateFromFile(String fileName)
