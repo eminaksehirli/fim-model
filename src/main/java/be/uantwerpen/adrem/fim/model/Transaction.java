@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class PlainTransaction implements Iterable<Item> {
+public class Transaction implements Iterable<Item> {
 	private final Set<Item> items = new HashSet<Item>();
 
-	public PlainTransaction(Item... initialItems) {
+	public Transaction(Item... initialItems) {
 		items.addAll(asList(initialItems));
 	}
 

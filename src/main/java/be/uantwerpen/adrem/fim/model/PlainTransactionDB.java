@@ -17,7 +17,7 @@ public class PlainTransactionDB {
 
 	private String databaseName;
 
-	private final List<PlainTransaction> transactions = new ArrayList<PlainTransaction>();
+	private final List<Transaction> transactions = new ArrayList<Transaction>();
 
 	private final PlainItemDB itemsDB;
 
@@ -32,13 +32,13 @@ public class PlainTransactionDB {
 
 	public PlainTransactionDB(PlainItemDB itemsDB) {
 		this.itemsDB = itemsDB;
-		Map<Integer, PlainTransaction> txMap = new HashMap<Integer, PlainTransaction>();
+		Map<Integer, Transaction> txMap = new HashMap<Integer, Transaction>();
 		for (Item item : itemsDB) {
 			final BitSet tids = item.getTIDs();
 			for (int i = tids.nextSetBit(0); i >= 0; i = tids.nextSetBit(i + 1)) {
-				PlainTransaction tx = txMap.get(i);
+				Transaction tx = txMap.get(i);
 				if (tx == null) {
-					tx = new PlainTransaction();
+					tx = new Transaction();
 					txMap.put(i, tx);
 				}
 				tx.add(item);
@@ -47,9 +47,9 @@ public class PlainTransactionDB {
 
 		// Keep the order of transactions
 		for (int i = 0; !txMap.isEmpty(); i++) {
-			PlainTransaction tx = txMap.remove(i);
+			Transaction tx = txMap.remove(i);
 			if (tx == null) {
-				tx = new PlainTransaction();
+				tx = new Transaction();
 			}
 			transactions.add(tx);
 		}
@@ -71,7 +71,7 @@ public class PlainTransactionDB {
 			while ((line = reader.readLine()) != null) {
 				String[] splittedLine = line.split(Delimiter);
 
-				PlainTransaction tx = new PlainTransaction();
+				Transaction tx = new Transaction();
 				for (String itemStr : splittedLine) {
 					Item item = itemsDB.get(itemStr);
 					item.setTID(transactions.size());
@@ -112,14 +112,14 @@ public class PlainTransactionDB {
 		return itemsDB.get(itemId);
 	}
 
-	public void add(PlainTransaction plainTransaction) {
-		for (Item item : plainTransaction) {
+	public void add(Transaction transaction) {
+		for (Item item : transaction) {
 			item.setTID(transactions.size());
 		}
-		transactions.add(plainTransaction);
+		transactions.add(transaction);
 	}
 
-	public List<PlainTransaction> getTransactions() {
+	public List<Transaction> getTransactions() {
 		return unmodifiableList(transactions);
 	}
 
