@@ -8,27 +8,27 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class PlainTransaction implements Iterable<PlainItem> {
-	private final Set<PlainItem> items = new HashSet<PlainItem>();
+public class PlainTransaction implements Iterable<Item> {
+	private final Set<Item> items = new HashSet<Item>();
 
-	public PlainTransaction(PlainItem... initialItems) {
+	public PlainTransaction(Item... initialItems) {
 		items.addAll(asList(initialItems));
 	}
 
-	public void add(PlainItem item) {
+	public void add(Item item) {
 		items.add(item);
 	}
 
-	public boolean contains(PlainItem item) {
+	public boolean contains(Item item) {
 		return items.contains(item);
 	}
 
-	public Collection<PlainItem> asCollection() {
+	public Collection<Item> asCollection() {
 		return unmodifiableSet(items);
 	}
 
 	@Override
-	public Iterator<PlainItem> iterator() {
+	public Iterator<Item> iterator() {
 		return asCollection().iterator();
 	}
 

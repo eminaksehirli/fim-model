@@ -10,28 +10,28 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class PlainItemSet implements Collection<PlainItem> {
+public class PlainItemSet implements Collection<Item> {
 
-	private final SortedSet<PlainItem> items;
+	private final SortedSet<Item> items;
 
 	public PlainItemSet() {
-		items = new TreeSet<PlainItem>();
+		items = new TreeSet<Item>();
 	}
 
-	public PlainItemSet(PlainItem... newItems) {
+	public PlainItemSet(Item... newItems) {
 		this();
-		for (PlainItem newItem : newItems) {
+		for (Item newItem : newItems) {
 			items.add(newItem);
 		}
 	}
 
 	public PlainItemSet(PlainItemSet aPlainItemSet) {
-		items = new TreeSet<PlainItem>(aPlainItemSet.items);
+		items = new TreeSet<Item>(aPlainItemSet.items);
 	}
 
-	public PlainItemSet(Iterable<PlainItem> items) {
+	public PlainItemSet(Iterable<Item> items) {
 		this();
-		for (PlainItem item : items) {
+		for (Item item : items) {
 			this.items.add(item);
 		}
 	}
@@ -39,7 +39,7 @@ public class PlainItemSet implements Collection<PlainItem> {
 	public BitSet getTIDs() {
 		// TODO check if BitSet can stay
 		BitSet tids = new BitSet();
-		Iterator<PlainItem> it = items.iterator();
+		Iterator<Item> it = items.iterator();
 		if (it.hasNext()) {
 			tids.or(it.next().getTIDs()); // setup
 
@@ -51,12 +51,12 @@ public class PlainItemSet implements Collection<PlainItem> {
 	}
 
 	@Override
-	public boolean add(PlainItem newItem) {
+	public boolean add(Item newItem) {
 		return items.add(newItem);
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends PlainItem> plainItemSet) {
+	public boolean addAll(Collection<? extends Item> plainItemSet) {
 		return items.addAll(plainItemSet);
 	}
 
@@ -70,11 +70,11 @@ public class PlainItemSet implements Collection<PlainItem> {
 		return items.size();
 	}
 
-	public boolean contains(PlainItem item) {
+	public boolean contains(Item item) {
 		return items.contains(item);
 	}
 
-	public Set<PlainItem> asCollection() {
+	public Set<Item> asCollection() {
 		return unmodifiableSet(items);
 	}
 
@@ -88,7 +88,7 @@ public class PlainItemSet implements Collection<PlainItem> {
 	}
 
 	@Override
-	public Iterator<PlainItem> iterator() {
+	public Iterator<Item> iterator() {
 		return items.iterator();
 	}
 
@@ -112,8 +112,8 @@ public class PlainItemSet implements Collection<PlainItem> {
 		} else if (other.items.size() != items.size()) {
 			return false;
 		} else {
-			for (PlainItem plainItem : other.items) {
-				if (!items.contains(plainItem)) {
+			for (Item item : other.items) {
+				if (!items.contains(item)) {
 					return false;
 				}
 			}
@@ -134,12 +134,12 @@ public class PlainItemSet implements Collection<PlainItem> {
 						return 0;
 					}
 
-					Iterator<PlainItem> firstIterator = o1.iterator();
-					Iterator<PlainItem> secondIterator = o2.iterator();
+					Iterator<Item> firstIterator = o1.iterator();
+					Iterator<Item> secondIterator = o2.iterator();
 
 					for (; firstIterator.hasNext();) {
-						PlainItem item2 = secondIterator.next();
-						PlainItem item1 = firstIterator.next();
+						Item item2 = secondIterator.next();
+						Item item1 = firstIterator.next();
 						int overItems = item1.compareTo(item2);
 						if (overItems != 0) {
 							return overItems;

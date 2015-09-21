@@ -33,7 +33,7 @@ public class PlainTransactionDB {
 	public PlainTransactionDB(PlainItemDB itemsDB) {
 		this.itemsDB = itemsDB;
 		Map<Integer, PlainTransaction> txMap = new HashMap<Integer, PlainTransaction>();
-		for (PlainItem item : itemsDB) {
+		for (Item item : itemsDB) {
 			final BitSet tids = item.getTIDs();
 			for (int i = tids.nextSetBit(0); i >= 0; i = tids.nextSetBit(i + 1)) {
 				PlainTransaction tx = txMap.get(i);
@@ -73,7 +73,7 @@ public class PlainTransactionDB {
 
 				PlainTransaction tx = new PlainTransaction();
 				for (String itemStr : splittedLine) {
-					PlainItem item = itemsDB.get(itemStr);
+					Item item = itemsDB.get(itemStr);
 					item.setTID(transactions.size());
 					tx.add(item);
 				}
@@ -104,16 +104,16 @@ public class PlainTransactionDB {
 		return databaseName;
 	}
 
-	public PlainItem getItem(int itemId) {
+	public Item getItem(int itemId) {
 		return itemsDB.get(itemId);
 	}
 
-	public PlainItem getItem(String itemId) {
+	public Item getItem(String itemId) {
 		return itemsDB.get(itemId);
 	}
 
 	public void add(PlainTransaction plainTransaction) {
-		for (PlainItem item : plainTransaction) {
+		for (Item item : plainTransaction) {
 			item.setTID(transactions.size());
 		}
 		transactions.add(plainTransaction);

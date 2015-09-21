@@ -7,27 +7,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class PlainItemDB implements Iterable<PlainItem> {
-	private final Map<Integer, PlainItem> items;
+public class PlainItemDB implements Iterable<Item> {
+	private final Map<Integer, Item> items;
 
 	public PlainItemDB() {
-		this.items = new HashMap<Integer, PlainItem>();
+		this.items = new HashMap<Integer, Item>();
 	}
 
-	public PlainItem get(int itemId) {
-		PlainItem item = this.items.get(itemId);
+	public Item get(int itemId) {
+		Item item = this.items.get(itemId);
 		if (item == null) {
-			item = new PlainItem(itemId);
+			item = new Item(itemId);
 			this.items.put(itemId, item);
 		}
 
 		return item;
 	}
 
-	public PlainItem get(int itemId, BitSet tids) {
-		PlainItem item = this.items.get(itemId);
+	public Item get(int itemId, BitSet tids) {
+		Item item = this.items.get(itemId);
 		if (item == null) {
-			item = new PlainItem(itemId, tids);
+			item = new Item(itemId, tids);
 			this.items.put(itemId, item);
 		} else {
 			throw new IllegalStateException(
@@ -37,7 +37,7 @@ public class PlainItemDB implements Iterable<PlainItem> {
 		return item;
 	}
 
-	public PlainItem get(String itemId) {
+	public Item get(String itemId) {
 		return get(parseInt(itemId.trim()));
 	}
 
@@ -46,7 +46,7 @@ public class PlainItemDB implements Iterable<PlainItem> {
 	}
 
 	@Override
-	public Iterator<PlainItem> iterator() {
+	public Iterator<Item> iterator() {
 		return this.items.values().iterator();
 	}
 }

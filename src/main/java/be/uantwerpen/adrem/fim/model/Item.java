@@ -2,23 +2,23 @@ package be.uantwerpen.adrem.fim.model;
 
 import java.util.BitSet;
 
-public class PlainItem implements Comparable<PlainItem> {
+public class Item implements Comparable<Item> {
 	int id;
 	protected BitSet tids;
 	private String name;
 
-	public PlainItem(int id) {
+	public Item(int id) {
 		this.id = id;
 		tids = new BitSet();
 		name = String.valueOf(id);
 	}
 
-	public PlainItem(int id, BitSet tids) {
+	public Item(int id, BitSet tids) {
 		this(id);
 		this.tids.or(tids);
 	}
 
-	public PlainItem(int id, String name) {
+	public Item(int id, String name) {
 		this(id);
 		setName(name);
 	}
@@ -28,7 +28,7 @@ public class PlainItem implements Comparable<PlainItem> {
 	}
 
 	@Override
-	public int compareTo(PlainItem o) {
+	public int compareTo(Item o) {
 		return id - o.id;
 	}
 
@@ -45,7 +45,7 @@ public class PlainItem implements Comparable<PlainItem> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PlainItem other = (PlainItem) obj;
+		Item other = (Item) obj;
 		if (id == other.id)
 			return true;
 		return false;
