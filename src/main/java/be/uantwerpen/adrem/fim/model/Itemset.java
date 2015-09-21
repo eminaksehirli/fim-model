@@ -10,9 +10,64 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * A set of {@link Item}s. Uses a {@link TreeSet} as collection.
+ * 
+ * Provides two more comparators for convenience: {@link SupportComparator} and
+ * {@link ItemSetSizeComparator}.
+ * 
+ * @author Emin Aksehirli
+ * @author Sandy Moens
+ * 
+ */
 public class Itemset implements Collection<Item> {
 
 	private final SortedSet<Item> items;
+
+	/**
+	 * Compares {@link Itemset}s according to their sizes.
+	 */
+	public final static class ItemSetSizeComparator implements
+			Comparator<Itemset> {
+		@Override
+		public int compare(Itemset o1, Itemset o2) {
+			int overSize = o2.size() - o1.size();
+			if (overSize == 0) {
+				int overCardinality = o2.getTIDs().cardinality()
+						- o1.getTIDs().cardinality();
+				if (overCardinality == 0) {
+					if (o1.equals(o2)) {
+						return 0;
+					}
+
+					Iterator<Item> firstIterator = o1.iterator();
+					Iterator<Item> secondIterator = o2.iterator();
+
+					for (; firstIterator.hasNext();) {
+						Item item2 = secondIterator.next();
+						Item item1 = firstIterator.next();
+						int overItems = item1.compareTo(item2);
+						if (overItems != 0) {
+							return overItems;
+						}
+					}
+					return 0;
+				}
+				return overCardinality;
+			}
+			return overSize;
+		}
+	}
+
+	/**
+	 * Compares {@link Itemset}s according to their support.
+	 */
+	public final static class SupportComparator implements Comparator<Itemset> {
+		@Override
+		public int compare(Itemset o1, Itemset o2) {
+			return o2.getTIDs().cardinality() - o1.getTIDs().cardinality();
+		}
+	}
 
 	public Itemset() {
 		items = new TreeSet<Item>();
@@ -25,8 +80,8 @@ public class Itemset implements Collection<Item> {
 		}
 	}
 
-	public Itemset(Itemset aPlainItemSet) {
-		items = new TreeSet<Item>(aPlainItemSet.items);
+	public Itemset(Itemset anItemSet) {
+		items = new TreeSet<Item>(anItemSet.items);
 	}
 
 	public Itemset(Iterable<Item> items) {
@@ -36,8 +91,14 @@ public class Itemset implements Collection<Item> {
 		}
 	}
 
+	/**
+	 * Returns the TIDs of the itemset. They are not cached and computed on the
+	 * fly.
+	 * 
+	 * @return
+	 */
 	public BitSet getTIDs() {
-		// TODO check if BitSet can stay
+		// TODO check if BitSet can be cached
 		BitSet tids = new BitSet();
 		Iterator<Item> it = items.iterator();
 		if (it.hasNext()) {
@@ -48,6 +109,18 @@ public class Itemset implements Collection<Item> {
 			}
 		}
 		return tids;
+	}
+
+	public boolean contains(Item item) {
+		return items.contains(item);
+	}
+
+	public Set<Item> asSet() {
+		return unmodifiableSet(items);
+	}
+
+	public boolean containsAll(Itemset head) {
+		return items.containsAll(head.items);
 	}
 
 	@Override
@@ -68,18 +141,6 @@ public class Itemset implements Collection<Item> {
 	@Override
 	public int size() {
 		return items.size();
-	}
-
-	public boolean contains(Item item) {
-		return items.contains(item);
-	}
-
-	public Set<Item> asCollection() {
-		return unmodifiableSet(items);
-	}
-
-	public boolean containsAll(Itemset head) {
-		return items.containsAll(head.items);
 	}
 
 	@Override
@@ -121,47 +182,6 @@ public class Itemset implements Collection<Item> {
 		return true;
 	}
 
-	public final static class ItemSetSizeComparator implements
-			Comparator<Itemset> {
-		@Override
-		public int compare(Itemset o1, Itemset o2) {
-			int overSize = o2.size() - o1.size();
-			if (overSize == 0) {
-				int overCardinality = o2.getTIDs().cardinality()
-						- o1.getTIDs().cardinality();
-				if (overCardinality == 0) {
-					if (o1.equals(o2)) {
-						return 0;
-					}
-
-					Iterator<Item> firstIterator = o1.iterator();
-					Iterator<Item> secondIterator = o2.iterator();
-
-					for (; firstIterator.hasNext();) {
-						Item item2 = secondIterator.next();
-						Item item1 = firstIterator.next();
-						int overItems = item1.compareTo(item2);
-						if (overItems != 0) {
-							return overItems;
-						}
-					}
-					return 0;
-				}
-				return overCardinality;
-			}
-			return overSize;
-		}
-	}
-
-	public final static class SupportComparator implements
-			Comparator<Itemset> {
-
-		@Override
-		public int compare(Itemset o1, Itemset o2) {
-			return o2.getTIDs().cardinality() - o1.getTIDs().cardinality();
-		}
-	}
-
 	@Override
 	public boolean isEmpty() {
 		return items.isEmpty();
@@ -201,5 +221,4 @@ public class Itemset implements Collection<Item> {
 	public void clear() {
 		items.clear();
 	}
-
 }

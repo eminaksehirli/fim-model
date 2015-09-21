@@ -8,6 +8,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * Transaction in a transaction database.
+ * 
+ * @author Emin Aksehirli
+ * @author Sandy Moens
+ * 
+ */
 public class Transaction implements Iterable<Item> {
 	private final Set<Item> items = new HashSet<Item>();
 

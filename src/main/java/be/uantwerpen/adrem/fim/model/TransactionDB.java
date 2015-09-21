@@ -12,6 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Transaction database, i.e., a collection of {@link Transaction}s. This class
+ * maintains both vertical and horizontal representations of the data.
+ * Individual {@link Item}s contain their TID lists.
+ * 
+ * @author Emin Aksehirli
+ * @author Sandy Moens
+ * 
+ */
 public class TransactionDB {
 	private static final String Delimiter = " ";
 
@@ -25,11 +34,22 @@ public class TransactionDB {
 		itemsDB = new ItemDB();
 	}
 
+	/**
+	 * Reads the database from {@code fileName}. Each line is read a transaction,
+	 * item IDs are delimited by space. File should not contain any headers.
+	 * 
+	 * @param fileName
+	 */
 	public TransactionDB(String fileName) {
 		this();
 		populateFromFile(fileName);
 	}
 
+	/**
+	 * Initialise a {@link TransactionDB} using an {@link ItemDB}.
+	 * 
+	 * @param itemsDB
+	 */
 	public TransactionDB(ItemDB itemsDB) {
 		this.itemsDB = itemsDB;
 		Map<Integer, Transaction> txMap = new HashMap<Integer, Transaction>();
