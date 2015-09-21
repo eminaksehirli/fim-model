@@ -10,26 +10,26 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class PlainItemSet implements Collection<Item> {
+public class Itemset implements Collection<Item> {
 
 	private final SortedSet<Item> items;
 
-	public PlainItemSet() {
+	public Itemset() {
 		items = new TreeSet<Item>();
 	}
 
-	public PlainItemSet(Item... newItems) {
+	public Itemset(Item... newItems) {
 		this();
 		for (Item newItem : newItems) {
 			items.add(newItem);
 		}
 	}
 
-	public PlainItemSet(PlainItemSet aPlainItemSet) {
+	public Itemset(Itemset aPlainItemSet) {
 		items = new TreeSet<Item>(aPlainItemSet.items);
 	}
 
-	public PlainItemSet(Iterable<Item> items) {
+	public Itemset(Iterable<Item> items) {
 		this();
 		for (Item item : items) {
 			this.items.add(item);
@@ -78,7 +78,7 @@ public class PlainItemSet implements Collection<Item> {
 		return unmodifiableSet(items);
 	}
 
-	public boolean containsAll(PlainItemSet head) {
+	public boolean containsAll(Itemset head) {
 		return items.containsAll(head.items);
 	}
 
@@ -105,7 +105,7 @@ public class PlainItemSet implements Collection<Item> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PlainItemSet other = (PlainItemSet) obj;
+		Itemset other = (Itemset) obj;
 		if (items == null) {
 			if (other.items != null)
 				return false;
@@ -122,9 +122,9 @@ public class PlainItemSet implements Collection<Item> {
 	}
 
 	public final static class ItemSetSizeComparator implements
-			Comparator<PlainItemSet> {
+			Comparator<Itemset> {
 		@Override
-		public int compare(PlainItemSet o1, PlainItemSet o2) {
+		public int compare(Itemset o1, Itemset o2) {
 			int overSize = o2.size() - o1.size();
 			if (overSize == 0) {
 				int overCardinality = o2.getTIDs().cardinality()
@@ -154,10 +154,10 @@ public class PlainItemSet implements Collection<Item> {
 	}
 
 	public final static class SupportComparator implements
-			Comparator<PlainItemSet> {
+			Comparator<Itemset> {
 
 		@Override
-		public int compare(PlainItemSet o1, PlainItemSet o2) {
+		public int compare(Itemset o1, Itemset o2) {
 			return o2.getTIDs().cardinality() - o1.getTIDs().cardinality();
 		}
 	}
